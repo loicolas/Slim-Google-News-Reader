@@ -1,6 +1,6 @@
 # Slim Google News Reader
 
-It's a simple Google News reader made the php framework Slim
+A simple Google News reader made with the php framework Slim
 
 For more information:
 http://www.slimframework.com
