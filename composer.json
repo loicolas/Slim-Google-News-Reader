@@ -1,14 +1,14 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
-    "keywords": ["microframework","rest","router", "psr7"],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "name": "Slim Google News Reader",
+    "description": "A simple Google News reader made with the php framework Slim",
+    "keywords": ["slim","google news"],
+    "homepage": "https://github.com/loicolas/Slim-Google-News-Reader",
     "license": "MIT",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
+            "name": "Loïc Colas",
+            "email": "loicolas@gmail.com",
+            "homepage": "http://www.loicolas.fr/"
         }
     ],
     "require": {
@@ -16,5 +16,10 @@
         "slim/slim": "^3.1",
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17"
+    },
+    "autoload": {
+        "psr-0": {
+            "App": "src/"
+        }
     }
 }
