@@ -21,11 +21,3 @@ $container['rssNewsReader'] = function($c){
     $settings = $c->get('settings')['news-reader'];
     return new App\Service\RssNewsReaderService($settings, $c['logger']);
 };
-
-// Google news reader service
-$container['googleNewsReader'] = function($c){
-    $settings = $c->get('settings')['google-news-reader'];
-    $google_news_endpoint   = $settings['endpoint'];
-    $google_news_version    = $settings['version'];
-    return new App\Service\GoogleNewsReaderService($google_news_endpoint, $google_news_version,  $c['logger']);
-};
