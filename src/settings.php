@@ -14,9 +14,10 @@ return [
             'name' => 'slim-app',
             'path' => __DIR__ . '/../logs/app.log',
         ],
-        'google-news-reader' => [
-            'endpoint'  => 'https://ajax.googleapis.com/ajax/services/search/news',
-            'version'   => '1.0'
+        
+        'news-reader' => [
+            'athome'    => 'http://www.athome.lu/blog/feed/',
+            'slim'      => 'http://www.slimframework.com/blog/feed.rss'
         ]
     ],
 ];

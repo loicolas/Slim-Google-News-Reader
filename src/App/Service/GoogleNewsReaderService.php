@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use Psr\Log\LoggerInterface;
-use GuzzleHttp\ClientInterface;
 
 /**
  * Description of GoogleNewsReaderService
@@ -70,12 +69,14 @@ class GoogleNewsReaderService implements GoogleNewsReaderInterface
         $this->logger->info(" Send request to Google News [" .$uri."]");
                 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $uri);
+        curl_setopt($ch, CURLOPT_URL, $this->endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         //curl_setopt($ch, CURLOPT_REFERER, /* Enter the URL of your site here */);
         $body = curl_exec($ch);
         $info = curl_getinfo($ch);
         curl_close($ch);
+        
+        var_dump($body);
         
         if( $body === null ){
             $this->manageError("Request Error");

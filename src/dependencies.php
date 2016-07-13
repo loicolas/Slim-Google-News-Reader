@@ -17,6 +17,10 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
     return $logger;
 };
+$container['rssNewsReader'] = function($c){
+    $settings = $c->get('settings')['news-reader'];
+    return new App\Service\RssNewsReaderService($settings, $c['logger']);
+};
 
 // Google news reader service
 $container['googleNewsReader'] = function($c){

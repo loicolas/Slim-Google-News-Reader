@@ -1,15 +1,19 @@
 <?php
 // Routes
 
-$app->get('/', function ($request, $response, $args) {
+$app->get('/[{feed}]', function ($request, $response, $args) {
     // Sample log message
     $this->logger->info("App'/' route");
     
-    $params =  array_merge($args, ['error' => false, 'error_message' =>'']);
-    $googleNewsReader = $this->get('googleNewsReader');
+    $params = [ 
+        'feed' => $args['feed'],
+        'error' => false, 
+        'error_message' =>''
+    ];
+    $rssNewsReader = $this->get('rssNewsReader');
     
     try {
-        $news = $googleNewsReader->find();
+        $params['news_lists'] = $rssNewsReader->find($args['feed']);
     } catch (\Exception $e){
         $params['error']            = true;
         $params['error_message']    = $e->getMessage(); 
