@@ -10,7 +10,7 @@
                 padding: 0;
                 width: 100%;
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                text-align: center;
+                
                 color: #aaa;
                 font-size: 18px;
             }
@@ -23,21 +23,33 @@
                 font-weight: 200;
                 margin-bottom: 0;
             }
+            
+            .center {
+                text-align: center;
+            }
+            .feed-item {
+                clear: left;
+            }
+            
+            .feed-item img {
+                float: left;
+                margin: 0 10px
+            }
         </style>
     </head>
     <body>
-        <h1>Slim News reader</h1>
-        <div>Latest News</div>
+        <h1 class="center">Slim News reader</h1>
+        <div class="center">Latest News</div>
 
         <?php if($error): ?>
-        <p style="color:red;"><?php echo $error_message; ?></p>
+            <p style="color:red;"><?php echo $error_message; ?></p>
         <?php else: ?>
             <?php foreach( $news_lists as $feed): ?>
                 <h2><?php echo $feed->getTitle(); ?></h2>
                 <p><?php echo $feed->getDescription(); ?></p>
                 <ol>
                 <?php foreach($feed as $item): ?>
-                    <li>
+                    <li class="feed-item">
                         <h3>
                             <?php if( $item->getUrl() != '' ): ?>
                             <a href="<?php echo $item->getUrl(); ?>" target="_blank">
