@@ -1,7 +1,4 @@
-# Slim Google News Reader
+# Slim News Reader
 
-A simple Google News reader made with the php framework Slim
+A simple News reader made with the php framework Slim
 
-For more information:
-http://www.slimframework.com
-https://developers.google.com/news-search/v1/jsondevguide
