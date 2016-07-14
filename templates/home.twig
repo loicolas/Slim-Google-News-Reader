@@ -34,6 +34,7 @@
 {%endblock%}
 {% block right_column %}
 <div class="col-md-4 sidebar">
+    <h2 class="h2">Filter By Feed</h2>
     <ul class="nav nav-sidebar">
         <li {% if(current_feed is null) %}class="active"{% endif %}><a href="/">All {% if(current_feed is null) %}<span class="sr-only">(current)</span> {% endif %}</a></li>
         {% for feed_name in available_feeds|keys %}
