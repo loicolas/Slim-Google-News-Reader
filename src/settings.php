@@ -9,6 +9,12 @@ return [
             'template_path' => __DIR__ . '/../templates/',
         ],
 
+        'twig' => [
+            'template_path'         => __DIR__ . '/../templates/',
+            'cache_template_path'   => __DIR__ . '/../templates/cache/',
+            'auto_reload'           => true
+        ],
+            
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',

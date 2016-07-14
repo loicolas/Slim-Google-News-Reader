@@ -1,0 +1,44 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+<div class="col-md-8 main">
+    <h1 class="page-header">News</h1>
+    {% if (error) %}
+    <div class="alert alert-danger" role="alert">
+        <p>{{error_message}}</p>
+    </div>  
+    {% else %}
+        {% for  feed in news_lists %}
+            <h2 class="subheader">{{feed.title}}</h2>
+            <p>{{feed.description}}</p>
+            <ol class="list-unstyled">
+            {% for item in feed %}
+                <li class="feed-item clearfix">
+                    <h3 class="h3">
+                        {% if( item.url) %}
+                            <a href="{{item.url}}" target="_blank">
+                        {% endif %}
+                        {{ item.title }}
+                        {% if( item.url) %}
+                            </a>
+                        {% endif %}
+                    </h3>
+                    <p><{{ item.date|date('M d, Y')}}</p>
+                    <p>{{ item.summary|raw }}</p>
+                </li>
+            {% endfor %}
+            </ol>  
+        {% endfor %}
+    {% endif %}
+</div>
+{%endblock%}
+{% block right_column %}
+<div class="col-md-4 sidebar">
+    <ul class="nav nav-sidebar">
+        <li {% if(current_feed is null) %}class="active"{% endif %}><a href="/">All {% if(current_feed is null) %}<span class="sr-only">(current)</span> {% endif %}</a></li>
+        {% for feed_name in available_feeds|keys %}
+            <li {% if(current_feed == feed_name) %} class="active"{% endif %}><a href="/{{feed_name}}">{{feed_name}} {% if(current_feed == feed_name) %}<span class="sr-only">(current)</span> {% endif %}</a></li>
+        {% endfor %}
+      </ul>
+</div>
+{%endblock%}

@@ -25,5 +25,8 @@ $app->get('/[{feed}]', function ($request, $response, $args) {
     
 
     // Render index view
-    return $this->renderer->render($response, 'index.phtml', $view_params);
+    //return $this->renderer->render($response, 'index.phtml', $view_params);
+    
+    return $this->view->render($response, 'home.twig', $view_params);
+    
 });
