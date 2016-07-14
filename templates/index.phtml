@@ -26,7 +26,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Slim News reader</a>
+            <a class="navbar-brand" href="/">Slim News Reader</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -70,7 +70,10 @@
             </div>
             <div class="col-md-4 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">All <span class="sr-only">(current)</span></a></li>
+                    <li  <?php if($current_feed === null): ?>class="active"<?php endif; ?>><a href="/">All <?php if($current_feed === null): ?><span class="sr-only">(current)</span> <?php endif; ?></a></li>
+                    <?php foreach($available_feeds as $feed_name => $feed_url): ?>
+                        <li <?php if($current_feed == $feed_name): ?>class="active"<?php endif; ?>><a href="/<?php echo $feed_name; ?>"><?php echo $feed_name; ?> <?php if($current_feed == $feed_name): ?><span class="sr-only">(current)</span> <?php endif; ?></a></li>
+                    <?php endforeach; ?>
                   </ul>
             </div>
         </div>

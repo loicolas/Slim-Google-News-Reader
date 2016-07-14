@@ -4,17 +4,20 @@
 $app->get('/[{feed}]', function ($request, $response, $args) {
     // Sample log message
     $this->logger->info("App'/' route");
-    $feed_name = $args['feed'] ?? null;
+    $current_feed = $args['feed'] ?? null;
+    
+    $available_feeds = $this->get('settings')['news-reader'];
     
     $view_params = [ 
-        'feed' => $feed_name,
-        'error' => false, 
-        'error_message' =>''
+        'current_feed'      => $current_feed,
+        'error'             => false, 
+        'error_message'     => '',
+        'available_feeds'   => $available_feeds
     ];
     $rssNewsReader = $this->get('rssNewsReader');
     
     try {
-        $view_params['news_lists'] = $rssNewsReader->find($feed_name);
+        $view_params['news_lists'] = $rssNewsReader->find($current_feed);
     } catch (\Exception $e){
         $view_params['error']            = true;
         $view_params['error_message']    = $e->getMessage(); 
