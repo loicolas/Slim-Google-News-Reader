@@ -12,20 +12,18 @@ $app->get('/[{feed}]', function ($request, $response, $args) {
         'current_feed'      => $current_feed,
         'error'             => false, 
         'error_message'     => '',
-        'available_feeds'   => $available_feeds
+        'available_feeds'   => $available_feeds,
+        'flash_message'     => $this->flash
     ];
     $rssNewsReader = $this->get('rssNewsReader');
     
     try {
         $view_params['news_lists'] = $rssNewsReader->find($current_feed);
     } catch (\Exception $e){
+        $this->flash->addMessage('danger', $e->getMessage());
         $view_params['error']            = true;
         $view_params['error_message']    = $e->getMessage(); 
     }
-    
-
-    // Render index view
-    //return $this->renderer->render($response, 'index.phtml', $view_params);
     
     return $this->view->render($response, 'home.twig', $view_params);
     

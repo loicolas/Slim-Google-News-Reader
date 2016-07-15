@@ -3,33 +3,30 @@
 {% block content %}
 <div class="col-md-8 main">
     <h1 class="page-header">News</h1>
-    {% if (error) %}
-    <div class="alert alert-danger" role="alert">
-        <p>{{error_message}}</p>
-    </div>  
-    {% else %}
-        {% for  feed in news_lists %}
-            <h2 class="subheader">{{feed.title}}</h2>
-            <p>{{feed.description}}</p>
-            <ol class="list-unstyled">
-            {% for item in feed %}
-                <li class="feed-item clearfix">
-                    <h3 class="h3">
-                        {% if( item.url) %}
-                            <a href="{{item.url}}" target="_blank">
-                        {% endif %}
-                        {{ item.title }}
-                        {% if( item.url) %}
-                            </a>
-                        {% endif %}
-                    </h3>
-                    <p><{{ item.date|date('M d, Y')}}</p>
-                    <p>{{ item.summary|raw }}</p>
-                </li>
-            {% endfor %}
-            </ol>  
+    {% if (flash_message.messages) %}
+        {% include "include/flash-messages.twig" with { 'flash_message': flash_message} %}
+    {% endif %} 
+    {% for  feed in news_lists %}
+        <h2 class="subheader">{{feed.title}}</h2>
+        <p>{{feed.description}}</p>
+        <ol class="list-unstyled">
+        {% for item in feed %}
+            <li class="feed-item clearfix">
+                <h3 class="h3">
+                    {% if( item.url) %}
+                        <a href="{{item.url}}" target="_blank">
+                    {% endif %}
+                    {{ item.title }}
+                    {% if( item.url) %}
+                        </a>
+                    {% endif %}
+                </h3>
+                <p><{{ item.date|date('M d, Y')}}</p>
+                <p>{{ item.summary|striptags('<p><a><code><legend><pre><ul><li><ol>')|raw }}</p>
+            </li>
         {% endfor %}
-    {% endif %}
+        </ol>  
+    {% endfor %}
 </div>
 {%endblock%}
 {% block right_column %}

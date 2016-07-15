@@ -1,0 +1,7 @@
+{% for key,messages in flash_message.messages %}
+    {% for message_content in messages %}
+        <div class="alert alert-{{key}}" role="alert">
+             <p>{{message_content}}</p>
+         </div> 
+    {% endfor %} 
+{% endfor %}

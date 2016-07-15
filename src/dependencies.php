@@ -32,6 +32,13 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
     return $logger;
 };
+
+// Flash message
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
+
+// News Reader
 $container['rssNewsReader'] = function($c){
     $settings = $c->get('settings')['news-reader'];
     return new App\Service\RssNewsReaderService($settings, $c['logger']);
