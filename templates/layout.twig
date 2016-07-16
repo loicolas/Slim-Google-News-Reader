@@ -31,7 +31,11 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/">Home</a></li>
-                        <li><a href="{{ path_for('login') }}">Login</a></li>
+                        {% if(authservice.isLoggedIn()) %}
+                            <li><a href="{{ path_for('logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ path_for('login') }}">Login</a> </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

@@ -1,3 +1,4 @@
 vendor/*
 logs/*
 templates/cache/*
+src/local_settings.php

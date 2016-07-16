@@ -1,0 +1,12 @@
+<?php
+return [
+        'doctrine' => [
+            'connection' => [
+                'driver'   => 'pdo_mysql',
+                'host'     => 'localhost',
+                'dbname'   => '',
+                'user'     => '',
+                'password' => '',
+            ]
+        ]
+];

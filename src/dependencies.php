@@ -38,8 +38,33 @@ $container['flash'] = function () {
     return new \Slim\Flash\Messages();
 };
 
+$container['session'] = function ($c) {
+  return new \SlimSession\Helper;
+};
+
+// Doctrine
+$container['em'] = function ($c) {
+    $settings = $c->get('settings');
+    $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
+        $settings['doctrine']['meta']['entity_path'],
+        $settings['doctrine']['meta']['auto_generate_proxies'],
+        $settings['doctrine']['meta']['proxy_dir'],
+        $settings['doctrine']['meta']['cache'],
+        false
+    );
+    return \Doctrine\ORM\EntityManager::create($settings['doctrine']['connection'], $config);
+};
+
 // News Reader
 $container['rssNewsReader'] = function($c){
     $settings = $c->get('settings')['news-reader'];
     return new App\Service\RssNewsReaderService($settings, $c['logger']);
+};
+
+$container['userManager'] = function ($c) {
+    return new App\Entity\UserManager($c->get('em'));
+};
+
+$container['authService'] = function ($c) {
+    return new App\Service\AuthService($c->get('session'));
 };
