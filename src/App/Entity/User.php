@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Model\UserInterface;
 
 /**
- * Description of User
+ * Manage the User entity
  * 
  * @ORM\Entity
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="user_email", columns={"email"})}))
@@ -43,6 +43,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     protected $username;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="UserFeedPreference", mappedBy="user", cascade={"ALL"})
+     */
+    protected $preferences;
     
     /**
      * Get id
@@ -126,4 +131,45 @@ class User implements UserInterface
         return $this->username;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->preferences = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add preference
+     *
+     * @param \App\Entity\UserFeedPreference $preference
+     *
+     * @return User
+     */
+    public function addPreference(\App\Entity\UserFeedPreference $preference)
+    {
+        $this->preferences[] = $preference;
+
+        return $this;
+    }
+
+    /**
+     * Remove preference
+     *
+     * @param \App\Entity\UserFeedPreference $preference
+     */
+    public function removePreference(\App\Entity\UserFeedPreference $preference)
+    {
+        $this->preferences->removeElement($preference);
+    }
+
+    /**
+     * Get preferences
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPreferences()
+    {
+        return $this->preferences;
+    }
 }

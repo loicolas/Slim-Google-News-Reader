@@ -1,4 +1,5 @@
 <?php
+$local_settings = require __DIR__ . '/../src/local_settings.php';
 return [
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
