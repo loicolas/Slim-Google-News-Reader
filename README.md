@@ -8,10 +8,11 @@ A simple News reader made with the php framework Slim
 1. Clone repository
 2. Create local database
 3. Copy file src/local_settings.php.dist to src/local_settings.php
-4. Set database parameters in src/local_settings.php
-5. Create database's table using the doctrine command in CLI: **php vendor/bin/doctrine.php orm:schema-tool:update --force**
-6. Run the sql script data/fixtures.sql to populate database with fixtures data.
-7. You're done.
+4. Run CLI command **composer install**
+5. Set database parameters in src/local_settings.php
+6. Create database's table using the doctrine command in CLI: **php vendor/bin/doctrine.php orm:schema-tool:update --force**
+7. Run the sql script data/fixtures.sql to populate database with fixtures data.
+8. You're done.
 
 
 ## Log in with predefineded user
