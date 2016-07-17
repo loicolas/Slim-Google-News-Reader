@@ -20,13 +20,18 @@ abstract class AbstractNewsReader implements NewsReaderInterface
     protected $logger;
     
     /**
+     * array of the news feed declared in application settings
+     * 
+     * @ var array
+     */
+    protected $settings;
+    
+    /**
      * Get the all the  possible endpoints
      * 
      * @var array $available_feeds
      * @var array $settings 
      */
-    protected $settings;
-    
     public function find(array $available_feeds = null, string $feed = null ): array
     {
         $results = [];
@@ -96,7 +101,15 @@ abstract class AbstractNewsReader implements NewsReaderInterface
 
     }
     
-    public function getAvailableFeedsFilterByPreferences( $preferences = null )
+    /**
+     * get all the news feed available filter by a list of preferences
+     * Only feeds in the $preferences parameters are returned
+     * If no preferences exists (null), all the feeds are returned 
+     * 
+     * @param array $preferences 
+     * @return array 
+     */
+    public function getAvailableFeedsFilterByPreferences( array $preferences = null ): array
     {
         $feeds = [];
         

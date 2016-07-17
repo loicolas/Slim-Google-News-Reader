@@ -22,7 +22,10 @@ class AuthService
         $this->session = $session;
     }
 
-    
+    /**
+     * register user information in session
+     * @param UserInterface $user
+     */
     public function registerUser(UserInterface $user)
     {
         $this->session->set('user_id', $user->getId());
@@ -38,7 +41,12 @@ class AuthService
         $this->session->set('user_preferences', $user_preferences);
     }
     
-    public function isLoggedIn(){
+    /**
+     * Check if current user is logged in
+     * @return boolean
+     */
+    public function isLoggedIn()
+    {
         $logged_in = false;
         if( $this->session->get('user_id') ){
             $logged_in = true;
@@ -47,19 +55,42 @@ class AuthService
         return $logged_in;
     }
     
-    public function logout(){
+    /**
+     * logout the current user
+     */
+    public function logout()
+    {
         $this->session->clear();
     }
     
-    public function getUserId(){
+    /**
+     * return the user_id of the logged in user
+     * 
+     * @return int
+     */
+    public function getUserId(): int
+    {
         return $this->session->get('user_id');
     }
     
-    public function getUsername(){
+    /**
+     * return the username of the logged in user
+     * 
+     * @return string
+     */
+     public function getUsername(): string
+    {
         return $this->session->get('user_username');
     }
     
-    public function getUserPreferences(){
+    
+    /**
+     * return the feed preferences of the logged in user
+     * 
+     * @return array
+     */
+    public function getUserPreferences(): array
+    {
         return $this->session->get('user_preferences');
     }
 }

@@ -18,6 +18,10 @@ class RssNewsReaderService extends AbstractNewsReader
         $this->settings = $settings;
     }
     
+    
+    /**
+     * Format the feed from RSS to NewsReaderItemList
+     */
     protected function formatFeed( string $content ): NewsReaderItemList
     {
         $newsReaderListItem = new NewsReaderItemList();
