@@ -22,22 +22,28 @@ abstract class AbstractNewsReader implements NewsReaderInterface
     /**
      * Get the all the  possible endpoints
      * 
+     * @var array $available_feeds
      * @var array $settings 
      */
     protected $settings;
     
-    public function find(string $feed = null ): array
+    public function find(array $available_feeds = null, string $feed = null ): array
     {
-        $results = null;
-        if( $feed !== null && ! isset( $this->settings[$feed] ) ){
+        $results = [];
+        if( $available_feeds == null ){
+            $available_feeds = $this->settings;
+        }
+
+        
+        if( $feed !== null && ! isset( $available_feeds[$feed] ) ){
             $this->manageError('The feed '.$feed.' is undefined');
         }
         
         if( $feed !== null ){
-            $results[$feed] = $this->formatFeed($this->request($feed, $this->settings[$feed]));
-        } else {
-            foreach( $this->settings as $feed_name => $url  ){
-                $results[$feed_name] = $this->formatFeed($this->request($feed_name, $this->settings[$feed_name]));
+            $results[$feed] = $this->formatFeed($this->request($feed, $available_feeds[$feed]));
+        } else {          
+            foreach( $available_feeds as $feed_name => $url  ){
+                $results[$feed_name] = $this->formatFeed($this->request($feed_name, $available_feeds[$feed_name]));
             }
         }
         
@@ -88,6 +94,24 @@ abstract class AbstractNewsReader implements NewsReaderInterface
         
         return $body;
 
+    }
+    
+    public function getAvailableFeedsFilterByPreferences( $preferences = null )
+    {
+        $feeds = [];
+        
+        if( $preferences == null ){
+            $feeds = $this->settings;
+        } else {
+           foreach( $this->settings as $feed_name => $url  ){
+
+                if( isset($preferences[$feed_name]) && $preferences[$feed_name]  ){
+                    $feeds[$feed_name] = $url;
+                }
+            }         
+        }
+        
+        return $feeds;
     }
     
     /**

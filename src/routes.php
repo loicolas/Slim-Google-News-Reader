@@ -43,7 +43,8 @@ $app->any('/preference', function ($request, $response, $args) {
         // initialize view paramaters
     $view_params = [ 
         'available_feeds'   => $available_feeds,
-        'user_preferences'   => $authService->getUserPreferences()
+        'user_preferences'   => $authService->getUserPreferences(),
+        'flash_message'     => $this->flash
     ];
     
     return $this->view->render($response, 'preference.twig', $view_params);
@@ -104,8 +105,17 @@ $app->get('/[{feed}]', function ($request, $response, $args) {
     $this->logger->info("get route '".$request->getAttribute('route')->getName()."' with uri '". $request->getUri() ."' ");
     $current_feed = $args['feed'] ?? null;
     
+    // get news reader Service
+    $rssNewsReader = $this->get('rssNewsReader');
+    
     // get available feeds declared in the configuration
-    $available_feeds = $this->get('settings')['news-reader'];
+    //$available_feeds = $this->get('settings')['news-reader'];
+    $authService = $this->get('authService');
+    $preferences = null;
+    if( $authService->isLoggedIn() ){
+        $preferences = $authService->getUserPreferences();
+    }
+    $available_feeds = $rssNewsReader->getAvailableFeedsFilterByPreferences($preferences);
     
     // initialize view paramaters
     $view_params = [ 
@@ -116,14 +126,14 @@ $app->get('/[{feed}]', function ($request, $response, $args) {
         'flash_message'     => $this->flash
     ];
     
-    // get news reader Service
-    $rssNewsReader = $this->get('rssNewsReader');
+    
     
     try {
         // get content of the news feed
-        $view_params['news_lists'] = $rssNewsReader->find($current_feed);
+        $view_params['news_lists'] = $rssNewsReader->find($available_feeds, $current_feed);
     } catch (\Exception $e){
         $this->flash->addMessage('danger', $e->getMessage());
+        return $response->withStatus(404)->withHeader('Location', '/');
     }
     
     return $this->view->render($response, 'home.twig', $view_params);
