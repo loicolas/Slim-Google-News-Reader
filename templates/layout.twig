@@ -32,6 +32,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/">Home</a></li>
                         {% if(authservice.isLoggedIn()) %}
+                            <li><a href="{{ path_for('preference') }}">Preferences</a></li>
                             <li><a href="{{ path_for('logout') }}">Logout</a></li>
                         {% else %}
                             <li><a href="{{ path_for('login') }}">Login</a> </li>

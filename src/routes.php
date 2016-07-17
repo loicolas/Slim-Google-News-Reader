@@ -1,6 +1,55 @@
 <?php
 // Routes
 
+$app->any('/preference', function ($request, $response, $args) {
+    $this->logger->info("get route '".$request->getAttribute('route')->getName()."' with uri '". $request->getUri() ."' ");
+    
+    $authService = $this->get('authService');
+    if( ! $authService->isLoggedIn() ){
+        $this->flash->addMessage('danger', 'Access to the requested page is forbidden');
+        return $response->withStatus(401)->withHeader('Location', '/login');
+    }
+    
+    // get available feeds declared in the configuration
+    $available_feeds = $this->get('settings')['news-reader'];
+    
+    if( $request->isPost() ){
+        $userManager = $this->get('userManager');
+        $allPostPutVars = $request->getParsedBody();
+        $preference_params = $allPostPutVars['preference_form'];
+        
+        try {
+            // get current user
+            $user = $userManager->getById($authService->getUserId());
+            
+            if( $user == null ){
+                $this->flash->addMessage('danger', 'Access to the requested page is forbidden');
+                return $response->withStatus(401)->withHeader('Location', '/login');
+            }
+            
+            // update user Manager from request
+            $userManager->setPreferences($user, $preference_params);
+            // user values in the session
+            $authService->registerUser($user);
+            
+            $this->flash->addMessage('success', 'User preferences saved');
+            return $response->withStatus(302)->withHeader('Location', '/preference');
+            
+        } catch (\Exception $e){
+            $this->flash->addMessage('danger', $e->getMessage());
+        }
+    }
+    
+        // initialize view paramaters
+    $view_params = [ 
+        'available_feeds'   => $available_feeds,
+        'user_preferences'   => $authService->getUserPreferences()
+    ];
+    
+    return $this->view->render($response, 'preference.twig', $view_params);
+    
+})->setName('preference');
+
 $app->post('/auth', function ($request, $response, $args) {
     // log used route
     $this->logger->info("get route '".$request->getAttribute('route')->getName()."' with uri '". $request->getUri() ."' ");
@@ -49,26 +98,6 @@ $app->get('/login', function ($request, $response, $args) {
     return $this->view->render($response, 'login.twig', $view_params);
     
 })->setName('login');
-
-//$app->get('/passwd', function ($request, $response, $args) {
-//    //$salt = 'oZJorS9r';
-//    $password = 'test';
-//    
-//    $encoded = password_hash($password, PASSWORD_BCRYPT);
-//    
-//    if(password_verify($password, '$2y$10$AAbVI/8p4koMaT9ssbIKeuMhgyQtqn1/xtMqvmNseT6QxlOnzKwmu') ){
-//        echo 'pass $password OK';
-//    }
-//    
-//    if(password_verify('tttt', '$2y$10$AAbVI/8p4koMaT9ssbIKeuMhgyQtqn1/xtMqvmNseT6QxlOnzKwmu') ){
-//        echo 'pass $password OK';
-//    } else {
-//        echo 'KO';
-//    }
-//    
-//    die($encoded);
-//    
-//});
 
 $app->get('/[{feed}]', function ($request, $response, $args) {
     // log used route

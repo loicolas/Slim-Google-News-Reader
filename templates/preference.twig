@@ -1,0 +1,27 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+<div class="col-md-12 main">
+    <h1 class="page-header">{{authservice.username}}'s preferences</h1>
+    <div class="container">
+      <form class="form-preference" method="POST" action="{{ path_for('preference') }}">
+        <h2 class="form-signin-heading">Choose which feed you want to see</h2>
+        {% if (flash_message.messages) %}
+            {% include "include/flash-messages.twig" with { 'flash_message': flash_message} %}
+        {% endif %} 
+
+        {% for feed in available_feeds|keys %}
+            <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="preference_{{feed}}" name="preference_form[{{feed}}]" value="1" {% if user_preferences[feed] %}checked="checked" {% endif %} >{{feed}}
+                </label>
+              </div>
+        {% endfor %}
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
+      </form>
+
+    </div> <!-- /container -->
+</div>
+{%endblock%}
+{% block right_column %}{%endblock%}
